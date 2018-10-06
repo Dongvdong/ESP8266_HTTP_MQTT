@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ESP8266 配置信息</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  
+  <body>
+  
+   
+		
+	<div style="text-align:center;">
+	   <div id="Layer1" style="position:absolute; width:100%; height:100%; z-index:-1">  
+         <img src="test1.jpg" height="100%" width="100%"/>  
+       </div>    
+       
+      <h1  style="color:#40B3DF;">欢迎使用</h1>
+      
+     
+	   <div  class="starter-template";clear:both;text-align:center;">
+		<h3 style="color:#ffffff;">1选择WIFI连接方式:</h3>
+	
+		  <div style="color:#40B3DF;">
+		    <p>WIFI连接状态: <span id="wifiState"></span></p>
+		  <div/>
+		
+           		
+		    <h4  style="color:#ffffff;"> 1.1. 普通WIFI上网（家庭）</h4> 
+            <form action=""  style="color:#ffffff;"> 
+            WIFI名称: <input type="text" id="wifiname"  />
+            </form>
+			<form action=""  style="color:#ffffff;"> 
+            WIFI密码: <input type="text" id="wifipwd"  />
+            </form>	 <br/>	
+			<button onclick='setWifi(wifiname.value,wifipwd.value)' >连接</button>	
+			
+			 <h4  style="color:#ffffff;"> 1.2 网页认证上网（学校和商场）</h4> 
+	
+			<form action=""  style="color:#ffffff;"> 
+            WIFI名称: <input type="text" id="wifi_wname"  />
+            </form>
+			<form action=""  style="color:#ffffff;"> 
+            登陆网址: <input type="text" id="wifi_wip"  />
+            </form>			
+			
+			<form action=""  style="color:#ffffff;"> 
+            上网密钥: <input type="text" id="wifi_postdata"  />
+            </form>
+			
+			<br/>
+		
+			<button onclick='setWifi_wangye(wifi_wname.value,wifi_wip.value,wifi_postdata.value)' >连接</button>
+	     <br/>
+		    	
+		<p  style="color:#0000ff;">(如何根据自己的学号和密码获取上网密钥？)<p/>
+		
+		<br/>
+			
+	    </div>	
+		
+			
+    </div>
+	 
+	 		
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+	
+	
+	
+	<div  class="starter-template";clear:both;text-align:center;">
+            
+			<h3 style="color:#ffffff;">2板载LED控制</h3>
+		
+			
+			
+			<button onclick='setPinValue("on")' >点亮</button>
+			<button onclick='setPinValue("off")' >熄灭</button>					
+			<p style="color:#40B3DF;">LED状态:
+      
+			<span id="txtState"></span></p>
+        </div>
+		   
+	<script type="text/javascript">
+		function setPinValue(value) {
+		    alert("按键点击！");
+            var xmlhttp;
+            if (value.length==0)
+            { 
+            document.getElementById("txtState").innerHTML="请点击正确按键！";
+            return;
+            }
+			
+            if (window.XMLHttpRequest)
+            {
+            // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {
+			// IE6, IE5 浏览器执行代码
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+			
+            xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            //alert(xmlhttp.responseText);
+            //alert("操作成功");
+            document.getElementById("txtState").innerHTML = xmlhttp.responseText;
+             }
+            }
+            
+            var requestString = "/pin?a=" + value + "&pin=2";
+			xmlhttp.open("GET", requestString, true);
+			xmlhttp.send(null);
+		}
+		
+		function setWifi(name,pwd) {
+		    alert("按键点击！");
+            var xmlhttp;
+            if (name.length==0)
+            { 
+            document.getElementById("wifiState").innerHTML="请输入WIFI信息！";
+            return;
+            }
+			
+            if (window.XMLHttpRequest)
+            {
+            // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {
+			// IE6, IE5 浏览器执行代码
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+			
+            xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            //alert(xmlhttp.responseText);
+            //alert("操作成功");
+            document.getElementById("wifiState").innerHTML = xmlhttp.responseText;
+             }
+            }
+            
+            var requestString = "/wifi?config=on" + "&name="+name+"&pwd="+pwd;
+			xmlhttp.open("GET", requestString, true);
+			xmlhttp.send(null);
+		}
+		
+		
+		function setWifi_wangye(wifi_wname,wifi_wip,wifi_postdata) {
+		    alert("按键点击！");
+            var xmlhttp;
+            if (wifi_wname.length==0||wifi_wip.length==0||wifi_postdata.length==0)
+            { 
+            document.getElementById("wifiState").innerHTML="请输入网页认证信息！";
+            return;
+            }
+			
+			//for(var i=0;i<wifi_postdata.length;i++)
+			//{
+			   //if(wifi_postdata[i]=="&")wifi_postdata[i]="-";
+			
+			//}
+			
+            if (window.XMLHttpRequest)
+            {
+            // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+            xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {
+			// IE6, IE5 浏览器执行代码
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+			
+            xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            //alert(xmlhttp.responseText);
+            //alert("操作成功");
+            document.getElementById("wifiState").innerHTML = xmlhttp.responseText;
+             }
+            }
+         
+            var requestString = "/wifi_wangye?config=on" + "&wifi_wname="+wifi_wname+"&wifi_wpwd"+""+"&wifi_wip="+wifi_wip+"&wifi_postdata="+wifi_postdata;
+			xmlhttp.open("GET", requestString, true);
+			xmlhttp.send(null);
+		}
+	</script>
+  </body>
+</html>
